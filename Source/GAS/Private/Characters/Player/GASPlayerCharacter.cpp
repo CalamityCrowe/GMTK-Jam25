@@ -50,6 +50,7 @@ void AGASPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 	if (UEnhancedInputComponent* EIC = Cast<UEnhancedInputComponent>(PlayerInputComponent))
 	{
 		EIC->BindAction(PlayerInputData->MoveAction, ETriggerEvent::Triggered, this, &AGASPlayerCharacter::Move);
+		EIC->BindAction(PlayerInputData->LookAction, ETriggerEvent::Triggered, this, &AGASPlayerCharacter::Look);
 	}
 }
 

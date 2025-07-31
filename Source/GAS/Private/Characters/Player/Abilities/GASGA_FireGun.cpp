@@ -26,7 +26,7 @@ UGASGA_FireGun::UGASGA_FireGun()
 
 void UGASGA_FireGun::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
 {
-	if(CommitAbility(Handle,ActorInfo,ActivationInfo))
+	if(!CommitAbility(Handle,ActorInfo,ActivationInfo))
 	{
 		EndAbility(Handle, ActorInfo, ActivationInfo, true, true);
 	}
@@ -71,7 +71,7 @@ void UGASGA_FireGun::EventRecieved(FGameplayTag EventTag, FGameplayEventData Eve
 
 
 		// FIX LATER
-		FVector Start = Player->GetCamera()->GetComponentLocation();
+		FVector Start = Player->GetMesh()->GetSocketLocation(FName("Muzzle"));
 		FVector End = Start + Player->GetCamera()->GetForwardVector() * Range;
 		FVector Direction = (End - Start).GetSafeNormal();
 
@@ -80,12 +80,16 @@ void UGASGA_FireGun::EventRecieved(FGameplayTag EventTag, FGameplayEventData Eve
 
 		DamageEffectSpecHandle.Data.Get()->SetSetByCallerMagnitude(FGameplayTag::RequestGameplayTag(FName("Data.Damage")), Damage);
 
+		FTransform MuzzleTransform = Player->GetMesh()->GetSocketTransform(FName("Muzzle"));	
+		MuzzleTransform.SetRotation(SpawnRotation.Quaternion());
+		MuzzleTransform.SetScale3D(FVector(1.0f));
+
 
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 		SpawnParams.Instigator = Player;
 
-		if (AGASProjectile* Projectile = GetWorld()->SpawnActor<AGASProjectile>(ProjectileClass, Start, SpawnRotation, SpawnParams))
+		if (AGASProjectile* Projectile = GetWorld()->SpawnActor<AGASProjectile>(ProjectileClass, MuzzleTransform, SpawnParams))
 		{
 			if (DamageEffectSpecHandle.Data.Get() != nullptr) 
 				Projectile->DamageEffect = DamageEffectSpecHandle;

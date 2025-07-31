@@ -6,7 +6,7 @@
 #include "Characters/GASCharacterBase.h"
 #include "AbilitySystemGlobals.h"
 
-UGASPlayMontageAndWaitForEvent::UGASPlayMontageAndWaitForEvent(const FObjectInitializer& ObjectInitializer)
+UGASPlayMontageAndWaitForEvent::UGASPlayMontageAndWaitForEvent(const FObjectInitializer& ObjectInitializer) :Super(ObjectInitializer)
 {
 	Rate = 1.0f;
 	bStopWhenAbilityEnds = true;
@@ -32,7 +32,7 @@ void UGASPlayMontageAndWaitForEvent::Activate()
 
 			if (AbilitySystemComponent->PlayMontage(Ability, Ability->GetCurrentActivationInfo(), MontageToPlay, Rate, StartSectionName) > 0)
 			{
-				if (ShouldBroadcastAbilityTaskDelegates())
+				if (ShouldBroadcastAbilityTaskDelegates() == false)
 				{
 					return;
 				}

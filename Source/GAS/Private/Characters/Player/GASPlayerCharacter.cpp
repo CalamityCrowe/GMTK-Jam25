@@ -51,6 +51,7 @@ void AGASPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 	{
 		EIC->BindAction(PlayerInputData->MoveAction, ETriggerEvent::Triggered, this, &AGASPlayerCharacter::Move);
 		EIC->BindAction(PlayerInputData->LookAction, ETriggerEvent::Triggered, this, &AGASPlayerCharacter::Look);
+		EIC->BindAction(PlayerInputData->FireAction, ETriggerEvent::Triggered, this, &AGASPlayerCharacter::Fire);
 	}
 }
 

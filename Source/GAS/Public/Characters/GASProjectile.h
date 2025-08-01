@@ -23,6 +23,8 @@ public:
 	void SetRangeAndSpeed(float InRange, float InSpeed); 
 	void SetFireDirection(FVector Direction); 
 
+	void InitProjectile(); 
+
 	UPROPERTY(BlueprintReadOnly, Category = "GAS", meta = (ExposeOnSpawn = true, AllowPrivateAccess = true))
 	FGameplayEffectSpecHandle DamageEffect;
 

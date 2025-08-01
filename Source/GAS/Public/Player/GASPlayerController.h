@@ -8,6 +8,7 @@
 
 //class UAbilitySystemComponent;
 
+class UGASHUDWidget;
 
 /**
  * 
@@ -21,12 +22,19 @@ public:
 
 	void CreateHUD();
 	
+	UGASHUDWidget* GetHUDWidget() const { return HUDWidget; }
+
 protected: 
 
 	virtual void OnPossess(APawn* InPawn) override;
 
+	virtual void OnRep_PlayerState() override; 
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "GAS|HUD")
+	TSubclassOf<UGASHUDWidget> HUDWidgetClass;
 
+	UPROPERTY(BlueprintReadOnly, Category = "GAS|HUD")
+	TObjectPtr<UGASHUDWidget> HUDWidget;
 	
 	
 };

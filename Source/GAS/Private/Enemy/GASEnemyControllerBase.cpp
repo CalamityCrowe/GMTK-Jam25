@@ -44,12 +44,22 @@ void AGASEnemyControllerBase::SetStateAsIdle()
 
 void AGASEnemyControllerBase::SetStateAsSpawning()
 {
+	Blackboard->SetValueAsEnum(AIStateKeyName, static_cast<uint8>(EAIStates::Spawning));
 }
 
 void AGASEnemyControllerBase::SetStateAsAttacking(UObject* AttackTarget)
 {
+	if(AttackTarget)
+	{
+		Blackboard->SetValueAsObject(TargetKeyName, AttackTarget);
+	}
+	Blackboard->SetValueAsEnum(AIStateKeyName, static_cast<uint8>(EAIStates::Attacking));
 }
 
 void AGASEnemyControllerBase::SetStateAsDying()
 {
+	Blackboard->SetValueAsEnum(AIStateKeyName, static_cast<uint8>(EAIStates::Dying));
+	Blackboard->ClearValue(TargetKeyName);
+	Blackboard->ClearValue(POIKeyName);
+	ClearFocus(EAIFocusPriority::Gameplay);
 }

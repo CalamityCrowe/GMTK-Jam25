@@ -29,6 +29,7 @@ void UGASGA_FireGun::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 	if(!CommitAbility(Handle,ActorInfo,ActivationInfo))
 	{
 		EndAbility(Handle, ActorInfo, ActivationInfo, true, true);
+		return; 
 	}
 
 	UAnimMontage* MontageToPlay = FireMontage;

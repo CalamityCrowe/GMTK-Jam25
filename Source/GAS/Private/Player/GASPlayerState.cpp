@@ -4,6 +4,7 @@
 #include "Player/GASPlayerState.h"
 #include "Characters/Abilities/Attributes/GASAttributeSetBase.h"
 #include "Characters/Abilities/GASAbilitySystemComponent.h"
+#include "Characters/Player/GASPlayerCharacter.h"
 #include "Player/GASPlayerController.h"
 
 AGASPlayerState::AGASPlayerState()
@@ -77,12 +78,16 @@ void AGASPlayerState::HealthChanged(const FOnAttributeChangeData& Data)
 	float Health = Data.NewValue;
 
 	// do a check here for the player character
+	
 
 	// if the player has died, do death stuff here
 
 	if (!IsAlive() && !ASC->HasMatchingGameplayTag(DeadTag))
 	{
-
+		if (AGASPlayerCharacter* PlayerCharacter = Cast<AGASPlayerCharacter>(GetPawn())) 
+		{
+			PlayerCharacter->Die();	
+		}
 	}
 }
 

@@ -37,6 +37,24 @@ int32 AGASCharacterBase::GetAbilityLevel(EGASAbilityInputID AbilityInputID) cons
 
 void AGASCharacterBase::RemoveCharacterAbilities()
 {
+	if (GetLocalRole() != ROLE_Authority || !ASC.IsValid())
+	{
+		return;
+	}
+
+	TArray<FGameplayAbilitySpecHandle> AbilitiesToRemove; 
+	for (const FGameplayAbilitySpec& Spec : ASC->GetActivatableAbilities())
+	{
+		if ((Spec.SourceObject == this) && CharacterConfig->DefaultAbilities.Contains(Spec.Ability->GetClass()))
+		{
+			AbilitiesToRemove.Add(Spec.Handle);
+		}
+	}
+
+	for (int32 i = 0; i < AbilitiesToRemove.Num(); ++i)
+	{
+		ASC->ClearAbility(AbilitiesToRemove[i]);
+	}
 }
 
 float AGASCharacterBase::GetHealth() const

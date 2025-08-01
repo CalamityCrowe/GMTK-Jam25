@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Characters/Abilities/GASGameplayAbility.h"
 #include "Characters/Abilities/Tasks/GASPlayMontageAndWaitForEvent.h"
+#include "Projectile/ProjectileData.h"
 #include "GASGA_FireGun.generated.h"
 
 class AGASProjectile; 
@@ -31,15 +32,12 @@ public:
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
 
 protected:
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Projectile Properties")
-	float Range;
+	UPROPERTY(EditDefaultsOnly)
+	UDataTable* ProjectileDataTable;
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Projectile Properties")
-	float Speed;
-
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Projectile Properties")
-	float Damage;
-
+	UPROPERTY(EditDefaultsOnly)
+	TArray<EProjectileType> Projectiles;
+	
 	UFUNCTION()
 	void OnCancelled(FGameplayTag EventTag, FGameplayEventData EventData);
 
@@ -48,4 +46,9 @@ protected:
 
 	UFUNCTION()
 	void EventRecieved(FGameplayTag EventTag, FGameplayEventData EventData);
+
+private:
+	int32 CurrentProjectileIndex = 0;
+
+	float FirstFireTime = -1.0f;
 };

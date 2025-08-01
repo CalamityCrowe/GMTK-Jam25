@@ -11,7 +11,7 @@
 AGASProjectile::AGASProjectile()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	Collider = CreateDefaultSubobject<USphereComponent>(TEXT("Collider"));
 	RootComponent = Collider;
@@ -22,31 +22,26 @@ AGASProjectile::AGASProjectile()
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovement"));
 
 	Collider->SetSphereRadius(15.0f);
-
 	Collider->OnComponentHit.AddDynamic(this, &AGASProjectile::OnHit);
 }
 
-void AGASProjectile::SetRangeAndSpeed(float InRange, float InSpeed)
+void AGASProjectile::InitProjectile(const FProjectileDataRow* ProjectileDataRow, FVector Direction)
 {
-	Range = InRange;
-	Speed = InSpeed;
-	float Time = Range / Speed;
-	SetLifeSpan(Time);
-}
-
-void AGASProjectile::SetFireDirection(FVector Direction)
-{
-	if (ProjectileMovement)
+	if (!ProjectileDataRow)
 	{
-		ProjectileMovement->Velocity = Direction * Speed;
+		return;
 	}
-}
 
-// Called when the game starts or when spawned
-void AGASProjectile::BeginPlay()
-{
-	Super::BeginPlay();
+	if (!ProjectileMovement)
+	{
+		return;
+	}
 
+	SetLifeSpan(ProjectileDataRow->Lifetime);
+	Speed = ProjectileDataRow->Speed;
+	Collider->SetWorldScale3D(ProjectileDataRow->ProjectileScale);
+
+	ProjectileMovement->Velocity = Direction * Speed;
 }
 
 void AGASProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)

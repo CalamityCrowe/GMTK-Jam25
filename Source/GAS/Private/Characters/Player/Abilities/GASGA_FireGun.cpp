@@ -19,9 +19,6 @@ UGASGA_FireGun::UGASGA_FireGun()
 	ActivationOwnedTags.AddTag(Ability1Tag);
 
 	ActivationBlockedTags.AddTag(FGameplayTag::RequestGameplayTag(FName("Ability.Skill")));
-
-	Range = 1000.0f;
-	Damage = 10.0f;
 }
 
 void UGASGA_FireGun::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
@@ -29,11 +26,19 @@ void UGASGA_FireGun::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 	if(!CommitAbility(Handle,ActorInfo,ActivationInfo))
 	{
 		EndAbility(Handle, ActorInfo, ActivationInfo, true, true);
+		return;
+	}
+
+	if (!ProjectileDataTable)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AGASGA_FireGun::ActivateAbility - ProjectileDataTable is not set!"));
+		EndAbility(Handle, ActorInfo, ActivationInfo, true, true);
+		return;
 	}
 
 	UAnimMontage* MontageToPlay = FireMontage;
 
-	UGASPlayMontageAndWaitForEvent* Task = UGASPlayMontageAndWaitForEvent::PlayMontageAndWaitForEvent(this,FName("FireGunTask"),MontageToPlay,FGameplayTagContainer(),1.0f,FName("StartSection"),true,1.0f);
+	UGASPlayMontageAndWaitForEvent* Task = UGASPlayMontageAndWaitForEvent::PlayMontageAndWaitForEvent(this,FName("Event.Montage.SpawnProjectile"),MontageToPlay,FGameplayTagContainer(),1.0f,FName("StartSection"),true,1.0f);
 	Task->OnBlendOut.AddDynamic(this, &UGASGA_FireGun::OnCompleted);
 	Task->OnCompleted.AddDynamic(this, &UGASGA_FireGun::OnCompleted);
 	Task->OnInterupted.AddDynamic(this, &UGASGA_FireGun::OnCancelled);
@@ -69,32 +74,75 @@ void UGASGA_FireGun::EventRecieved(FGameplayTag EventTag, FGameplayEventData Eve
 			EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, true, false);
 		}
 
+		const FName RowName = *UEnum::GetDisplayValueAsText(Projectiles[CurrentProjectileIndex]).ToString();
 
-		// FIX LATER
-		FVector Start = Player->GetMesh()->GetSocketLocation(FName("Muzzle"));
-		FVector End = Start + Player->GetCamera()->GetForwardVector() * Range;
-		FVector Direction = (End - Start).GetSafeNormal();
-
-		FRotator SpawnRotation = UKismetMathLibrary::FindLookAtRotation(Start, End);
-		FGameplayEffectSpecHandle DamageEffectSpecHandle = MakeOutgoingGameplayEffectSpec(DamageEffectClass, 1.0f);
-
-		DamageEffectSpecHandle.Data.Get()->SetSetByCallerMagnitude(FGameplayTag::RequestGameplayTag(FName("Data.Damage")), Damage);
-
-		FTransform MuzzleTransform = Player->GetMesh()->GetSocketTransform(FName("Muzzle"));	
-		MuzzleTransform.SetRotation(SpawnRotation.Quaternion());
-		MuzzleTransform.SetScale3D(FVector(1.0f));
-
-
-		FActorSpawnParameters SpawnParams;
-		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		SpawnParams.Instigator = Player;
-
-		if (AGASProjectile* Projectile = GetWorld()->SpawnActor<AGASProjectile>(ProjectileClass, MuzzleTransform, SpawnParams))
+		if (const FProjectileDataRow* ProjectileDataRow = ProjectileDataTable->FindRow<FProjectileDataRow>(RowName, TEXT("UGASGA_FireGun::EventRecieved")))
 		{
-			if (DamageEffectSpecHandle.Data.Get() != nullptr) 
-				Projectile->DamageEffect = DamageEffectSpecHandle;
-			Projectile->SetRangeAndSpeed(Range, Speed);
-			Projectile->SetFireDirection(Direction); 
+#if WITH_EDITOR
+			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Green, TEXT("Firing Projectile Type: ") + RowName.ToString() + TEXT("!"));
+#endif
+			
+			FVector Start = Player->GetMesh()->GetSocketLocation(FName("Muzzle"));
+			FVector ForwardVector = Player->GetCamera()->GetForwardVector();
+			FVector End = Start + Player->GetCamera()->GetForwardVector() * (ProjectileDataRow->Speed * ProjectileDataRow->Lifetime);
+			FVector Direction = (End - Start).GetSafeNormal();
+
+			FRotator SpawnRotation = UKismetMathLibrary::FindLookAtRotation(Start, End);
+			FGameplayEffectSpecHandle DamageEffectSpecHandle = MakeOutgoingGameplayEffectSpec(DamageEffectClass, 1.0f);
+
+			DamageEffectSpecHandle.Data.Get()->SetSetByCallerMagnitude(FGameplayTag::RequestGameplayTag(FName("Data.Damage")), ProjectileDataRow->Damage);
+
+			FTransform MuzzleTransform = Player->GetMesh()->GetSocketTransform(FName("Muzzle"));	
+			MuzzleTransform.SetRotation(SpawnRotation.Quaternion());
+			MuzzleTransform.SetScale3D(FVector(1.0f));
+			
+			FActorSpawnParameters SpawnParams;
+			SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+			SpawnParams.Instigator = Player;
+
+			for (int32 i = 0; i < ProjectileDataRow->Bullets; ++i)
+			{
+				FTransform SpawnTransform = MuzzleTransform;
+				FVector SpreadDirection = ForwardVector;
+
+				if (i > 0)
+				{
+					SpreadDirection = UKismetMathLibrary::RandomUnitVectorInConeInDegrees(ForwardVector, 5.0f);
+					FVector SpreadOffset = SpreadDirection * ProjectileDataRow->SpreadRadius;
+					SpawnTransform.SetLocation(MuzzleTransform.GetLocation() + SpreadOffset);
+				}
+				
+				if (AGASProjectile* Projectile = GetWorld()->SpawnActor<AGASProjectile>(ProjectileClass, SpawnTransform, SpawnParams))
+				{
+					if (DamageEffectSpecHandle.Data.Get() != nullptr)
+					{
+						Projectile->DamageEffect = DamageEffectSpecHandle;
+					}
+
+					Projectile->InitProjectile(ProjectileDataRow, SpreadDirection);
+				}
+			}
+
+			if (ProjectileDataRow->AvailableTime > 0.0f)
+			{
+				if (FirstFireTime < 0.0f)
+				{
+					FirstFireTime = GetWorld()->GetTimeSeconds();
+				}
+				else if (GetWorld()->GetTimeSeconds() >= (FirstFireTime + ProjectileDataRow->AvailableTime))
+				{
+					FirstFireTime = -1.0f;
+					CurrentProjectileIndex = (CurrentProjectileIndex + 1) % Projectiles.Num();
+				}
+			}
+			else
+			{
+				CurrentProjectileIndex = (CurrentProjectileIndex + 1) % Projectiles.Num();
+			}
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("UGASGA_FireGun::EventRecieved - No data found for projectile type: %s"), *RowName.ToString());
 		}
 	}
 }

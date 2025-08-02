@@ -37,7 +37,6 @@ void UGASHUDWidget::NativeDestruct()
 	if (AttributeChangeTask)
 	{
 		AttributeChangeTask->EndTask();
-		AttributeChangeTask = nullptr;
 	}
 }
 

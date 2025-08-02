@@ -4,6 +4,7 @@
 #include "Components/GASMeleeComponent.h"
 #include "Characters/GASCharacterBase.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Characters/Abilities/GASAbilitySystemComponent.h"
 // Sets default values for this component's properties
 UGASMeleeComponent::UGASMeleeComponent()
 {
@@ -19,7 +20,7 @@ UGASMeleeComponent::UGASMeleeComponent()
 void UGASMeleeComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	if(OwnerCharacter = Cast<AGASCharacterBase>(GetOwner()))
+	if (OwnerCharacter = Cast<AGASCharacterBase>(GetOwner()))
 	{
 		UAnimInstance* AnimInstance = OwnerCharacter->GetMesh()->GetAnimInstance();
 		if (AnimInstance)
@@ -28,12 +29,12 @@ void UGASMeleeComponent::BeginPlay()
 		}
 	}
 	// ...
-	
+
 }
 
 void UGASMeleeComponent::HitDetect()
 {
-	if (CurrentSocket.IsNone()) 
+	if (CurrentSocket.IsNone())
 	{
 		return;
 	}
@@ -49,7 +50,7 @@ void UGASMeleeComponent::HitDetect()
 	TArray<FHitResult> Hits;
 
 
-	UKismetSystemLibrary::SphereTraceMultiForObjects(this,Start,Start,CurrentRadius,ObjectTypes,false,	IgnoreActors,EDrawDebugTrace::None,Hits,true);
+	UKismetSystemLibrary::SphereTraceMultiForObjects(this, Start, Start, CurrentRadius, ObjectTypes, false, IgnoreActors, EDrawDebugTrace::None, Hits, true);
 #if WITH_EDITOR
 	DrawDebugSphere(GetWorld(), Start, CurrentRadius, 12, FColor::Red, false, 5.f);
 #endif
@@ -61,9 +62,16 @@ void UGASMeleeComponent::HitDetect()
 			{
 				if (AGASCharacterBase* HitCharacter = Cast<AGASCharacterBase>(Hit.GetActor()))
 				{
-					//FIX THIS LATER
+					UAbilitySystemComponent* HitASC = HitCharacter->GetAbilitySystemComponent();
+					if (!HitASC->HasMatchingGameplayTag(FGameplayTag::RequestGameplayTag("State.Stun")))
+					{
+						FGameplayEffectContextHandle EffectContext = HitASC->MakeEffectContext();
+						EffectContext.AddSourceObject(this);
 
-					// need to create a damage spec to handle this to stun the target from a melee attack
+						FGameplayEffectSpecHandle DamageSpecHandle = HitASC->MakeOutgoingSpec(DamageEffect, 0, EffectContext);
+						DamageSpecHandle.Data->SetSetByCallerMagnitude(FGameplayTag::RequestGameplayTag(FName("Data.Damage")), CurrentDamage);
+						HitASC->ApplyGameplayEffectSpecToSelf(*DamageSpecHandle.Data.Get());
+					}
 				}
 			}
 		}

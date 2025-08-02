@@ -55,10 +55,13 @@ public:
 
 
 private: 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Melee", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GAS|Melee", meta = (AllowPrivateAccess = "true"))
 	TArray<FGASMeleeHitInfo> MeleeHitInfo;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Melee", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GAS|Melee", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<AGASCharacterBase> OwnerCharacter;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GAS|Melee", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<UGameplayEffect> DamageEffect;
 
 	TObjectPtr<UAnimMontage> CurrentMontage;
 	float CurrentRadius;

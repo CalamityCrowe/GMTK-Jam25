@@ -35,16 +35,16 @@ struct FProjectileDataRow : public FTableRowBase
 	UPROPERTY(EditDefaultsOnly, meta = (ClampMin = 1))
 	int32 Bullets = 1;
 
-	UPROPERTY(EditDefaultsOnly, meta = (EditCondition = "Bullets > 1", EditConditionHides, ClampMin = 1))
+	UPROPERTY(EditDefaultsOnly, meta = (EditCondition = "Bullets > 1", ClampMin = 1))
 	float SpreadRadius = 20.0f;
 
 	UPROPERTY(EditDefaultsOnly)
-	float AvailableTime = 0.0f;
+	int32 AvailableTime = 0;
 
 	// Modifiers
-	UPROPERTY(EditDefaultsOnly, meta = (EditCondition = "ActiveTime > 0.0f", EditConditionHides))
+	UPROPERTY(EditDefaultsOnly, meta = (EditCondition = "AvailableTime > 0"))
 	float FireRate = 1.0f;
 
-	UPROPERTY(EditDefaultsOnly, meta = (EditCondition = "ActiveTime > 0.0f", EditConditionHides))
+	UPROPERTY(EditDefaultsOnly)
 	float Multishot = 1.0f;
 };

@@ -16,7 +16,7 @@ enum class EProjectileType : uint8
 };
 
 USTRUCT(BlueprintType)
-struct FProjectileDataRow : public FTableRowBase
+struct FProjectileModifiers
 {
 	GENERATED_BODY()
 
@@ -47,4 +47,13 @@ struct FProjectileDataRow : public FTableRowBase
 
 	UPROPERTY(EditDefaultsOnly)
 	float Multishot = 1.0f;
+};
+
+USTRUCT(BlueprintType)
+struct FProjectileDataRow : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly)
+	FProjectileModifiers ProjectileModifiers;
 };

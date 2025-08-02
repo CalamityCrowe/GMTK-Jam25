@@ -37,9 +37,9 @@ void AGASProjectile::InitProjectile(const FProjectileDataRow* ProjectileDataRow,
 		return;
 	}
 
-	SetLifeSpan(ProjectileDataRow->Lifetime);
-	Speed = ProjectileDataRow->Speed;
-	Collider->SetWorldScale3D(ProjectileDataRow->ProjectileScale);
+	SetLifeSpan(ProjectileDataRow->ProjectileModifiers.Lifetime);
+	Speed = ProjectileDataRow->ProjectileModifiers.Speed;
+	Collider->SetWorldScale3D(ProjectileDataRow->ProjectileModifiers.ProjectileScale);
 
 	ProjectileMovement->Velocity = Direction * Speed;
 }

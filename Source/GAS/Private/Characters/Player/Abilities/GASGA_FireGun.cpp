@@ -84,13 +84,13 @@ void UGASGA_FireGun::EventRecieved(FGameplayTag EventTag, FGameplayEventData Eve
 			
 			FVector Start = Player->GetMesh()->GetSocketLocation(FName("Muzzle"));
 			FVector ForwardVector = Player->GetCamera()->GetForwardVector();
-			FVector End = Start + Player->GetCamera()->GetForwardVector() * (ProjectileDataRow->Speed * ProjectileDataRow->Lifetime);
+			FVector End = Start + Player->GetCamera()->GetForwardVector() * (ProjectileDataRow->ProjectileModifiers.Speed * ProjectileDataRow->ProjectileModifiers.Lifetime);
 			FVector Direction = (End - Start).GetSafeNormal();
 
 			FRotator SpawnRotation = UKismetMathLibrary::FindLookAtRotation(Start, End);
 			FGameplayEffectSpecHandle DamageEffectSpecHandle = MakeOutgoingGameplayEffectSpec(DamageEffectClass, 1.0f);
 
-			DamageEffectSpecHandle.Data.Get()->SetSetByCallerMagnitude(FGameplayTag::RequestGameplayTag(FName("Data.Damage")), ProjectileDataRow->Damage);
+			DamageEffectSpecHandle.Data.Get()->SetSetByCallerMagnitude(FGameplayTag::RequestGameplayTag(FName("Data.Damage")), ProjectileDataRow->ProjectileModifiers.Damage);
 
 			FTransform MuzzleTransform = Player->GetMesh()->GetSocketTransform(FName("Muzzle"));	
 			MuzzleTransform.SetRotation(SpawnRotation.Quaternion());
@@ -100,7 +100,7 @@ void UGASGA_FireGun::EventRecieved(FGameplayTag EventTag, FGameplayEventData Eve
 			SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 			SpawnParams.Instigator = Player;
 
-			for (int32 i = 0; i < ProjectileDataRow->Bullets; ++i)
+			for (int32 i = 0; i < ProjectileDataRow->ProjectileModifiers.Bullets; ++i)
 			{
 				FTransform SpawnTransform = MuzzleTransform;
 				FVector SpreadDirection = ForwardVector;
@@ -108,7 +108,7 @@ void UGASGA_FireGun::EventRecieved(FGameplayTag EventTag, FGameplayEventData Eve
 				if (i > 0)
 				{
 					SpreadDirection = UKismetMathLibrary::RandomUnitVectorInConeInDegrees(ForwardVector, 5.0f);
-					FVector SpreadOffset = SpreadDirection * ProjectileDataRow->SpreadRadius;
+					FVector SpreadOffset = SpreadDirection * ProjectileDataRow->ProjectileModifiers.SpreadRadius;
 					SpawnTransform.SetLocation(MuzzleTransform.GetLocation() + SpreadOffset);
 				}
 				
@@ -123,13 +123,13 @@ void UGASGA_FireGun::EventRecieved(FGameplayTag EventTag, FGameplayEventData Eve
 				}
 			}
 
-			if (ProjectileDataRow->AvailableTime > 0.0f)
+			if (ProjectileDataRow->ProjectileModifiers.AvailableTime > 0.0f)
 			{
 				if (FirstFireTime < 0.0f)
 				{
 					FirstFireTime = GetWorld()->GetTimeSeconds();
 				}
-				else if (GetWorld()->GetTimeSeconds() >= (FirstFireTime + ProjectileDataRow->AvailableTime))
+				else if (GetWorld()->GetTimeSeconds() >= (FirstFireTime + ProjectileDataRow->ProjectileModifiers.AvailableTime))
 				{
 					FirstFireTime = -1.0f;
 					CurrentProjectileIndex = (CurrentProjectileIndex + 1) % Projectiles.Num();

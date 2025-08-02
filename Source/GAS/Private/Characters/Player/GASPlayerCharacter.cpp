@@ -31,6 +31,7 @@ StartingCameraBoomLength(300.0f),StartingCameraSocketOffset(0,0,0)
 
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
 
+	ProjectileLoop.SetNum(StartingLoopSize);
 }
 
 void AGASPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

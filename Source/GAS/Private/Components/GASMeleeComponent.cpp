@@ -1,34 +1,27 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Components/GASMeleeComponent.h"
 #include "Characters/GASCharacterBase.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Characters/Abilities/GASAbilitySystemComponent.h"
-// Sets default values for this component's properties
+
 UGASMeleeComponent::UGASMeleeComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
 }
 
 
-// Called when the game starts
 void UGASMeleeComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	if (OwnerCharacter = Cast<AGASCharacterBase>(GetOwner()))
+	OwnerCharacter = Cast<AGASCharacterBase>(GetOwner());
+	if (OwnerCharacter)
 	{
 		UAnimInstance* AnimInstance = OwnerCharacter->GetMesh()->GetAnimInstance();
 		if (AnimInstance)
 		{
-			AnimInstance->OnMontageEnded.AddDynamic(this, &UGASMeleeComponent::FinishAttack);
+			BlendingOutDelegate.BindUObject(this, &UGASMeleeComponent::FinishAttack);
 		}
 	}
-	// ...
 
 }
 
@@ -91,10 +84,12 @@ void UGASMeleeComponent::Attack()
 		return;
 	}
 
-	CurrentMontage = MeleeHitInfo[0].MeleeAttackMontage;
-	CurrentDamage = MeleeHitInfo[0].DamageAmount;
-	CurrentRadius = MeleeHitInfo[0].HitRadius;
-	CurrentSocket = MeleeHitInfo[0].SocketName;
+	int Index = FMath::RandRange(0, MeleeHitInfo.Num() - 1);
+
+	CurrentMontage = MeleeHitInfo[Index].MeleeAttackMontage;
+	CurrentDamage = MeleeHitInfo[Index].DamageAmount;
+	CurrentRadius = MeleeHitInfo[Index].HitRadius;
+	CurrentSocket = MeleeHitInfo[Index].SocketName;
 
 	AnimInstance->Montage_Play(CurrentMontage);
 	if (BlendingOutDelegate.IsBound())
@@ -106,14 +101,10 @@ void UGASMeleeComponent::Attack()
 
 void UGASMeleeComponent::FinishAttack(UAnimMontage* Montage, bool bInterrupted)
 {
-	for (const FGASMeleeHitInfo& HitInfo : MeleeHitInfo)
+	if (Montage == CurrentMontage)
 	{
-		if (HitInfo.MeleeAttackMontage == Montage)
-		{
-			OnAttackComplete.Broadcast();
-			OwnerCharacter->GetMesh()->GetAnimInstance()->Montage_GetBlendingOutDelegate()->Unbind();
-			break;
-		}
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Attack Finished"));
+		OnAttackCompleted.Broadcast();
 	}
 }
 

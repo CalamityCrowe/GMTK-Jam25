@@ -54,5 +54,5 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetStateAsDying();
 
-	
+	FName GetTargetKeyName() const { return TargetKeyName; }
 };

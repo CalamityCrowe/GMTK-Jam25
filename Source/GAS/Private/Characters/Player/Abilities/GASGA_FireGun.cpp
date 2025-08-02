@@ -72,6 +72,15 @@ void UGASGA_FireGun::EventRecieved(FGameplayTag EventTag, FGameplayEventData Eve
 		if (!Player || !ProjectileClass) 
 		{
 			EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, true, false);
+			return;
+		}
+
+		TArray<EProjectileType> Projectiles = Player->GetProjectileLoop();
+
+		if (Projectiles.Num() == 0)
+		{
+			EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, true, false);
+			return;
 		}
 
 		const FName RowName = *UEnum::GetDisplayValueAsText(Projectiles[CurrentProjectileIndex]).ToString();

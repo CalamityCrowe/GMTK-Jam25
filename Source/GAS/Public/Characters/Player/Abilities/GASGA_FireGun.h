@@ -34,9 +34,6 @@ public:
 protected:
 	UPROPERTY(EditDefaultsOnly)
 	UDataTable* ProjectileDataTable;
-
-	UPROPERTY(EditDefaultsOnly)
-	TArray<EProjectileType> Projectiles;
 	
 	UFUNCTION()
 	void OnCancelled(FGameplayTag EventTag, FGameplayEventData EventData);

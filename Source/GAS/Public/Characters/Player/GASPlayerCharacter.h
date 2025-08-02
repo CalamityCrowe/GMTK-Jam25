@@ -49,7 +49,7 @@ public:
 	FVector2D GetLookAxis() const { return LookAxis; }
 	
 	UPROPERTY(EditDefaultsOnly, meta = (ClampMin = 1), Category = "Loop")
-	int32 StartingLoopSize = 3;
+	int32 LoopSize = 3;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Loop")
 	TArray<EProjectileType> AvailableProjectileTypes;

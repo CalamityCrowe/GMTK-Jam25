@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ProjectileLoopWidget.h"
 #include "Blueprint/UserWidget.h"
 #include "GASHUDWidget.generated.h"
 
@@ -34,6 +35,10 @@ public:
 
 	void UpdateBar(float CurrentValue, float MaxValue, UProgressBar* ProgressBar, UTextBlock* TextBlock);
 
+	void UpdateLoop();
 private: 
 	UAsyncTaskAttributeChange* AttributeChangeTask;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UProjectileLoopWidget> ProjectileLoopWidget;
 };

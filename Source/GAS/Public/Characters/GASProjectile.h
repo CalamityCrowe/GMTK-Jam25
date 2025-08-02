@@ -21,7 +21,7 @@ public:
 	// Sets default values for this actor's properties
 	AGASProjectile();
 
-	void InitProjectile(const FProjectileDataRow* ProjectileDataRow, FVector Direction); 
+	void InitProjectile(const FProjectileDataRow* ProjectileDataRow, const FVector& Direction); 
 
 	UPROPERTY(BlueprintReadOnly, Category = "GAS", meta = (ExposeOnSpawn = true, AllowPrivateAccess = true))
 	FGameplayEffectSpecHandle DamageEffect;

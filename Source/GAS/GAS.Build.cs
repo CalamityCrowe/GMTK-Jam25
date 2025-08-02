@@ -14,7 +14,8 @@ public class GAS : ModuleRules
 		{
             "GameplayAbilities", 
             "GameplayTags", 
-            "GameplayTasks"
+            "GameplayTasks",
+			"Niagara"
 		});
 
 		// Uncomment if you are using Slate UI

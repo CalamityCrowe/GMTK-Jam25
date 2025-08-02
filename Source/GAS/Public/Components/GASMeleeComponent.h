@@ -13,23 +13,23 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAttackCompleted);
 
 class AGASCharacterBase;
 
-
 USTRUCT(BlueprintType)
 struct FGASMeleeHitInfo
 {
 	GENERATED_BODY()
 public: 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Melee")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Melee")
 	FName SocketName;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Melee")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Melee")
 	float DamageAmount;
 
-	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Melee")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Melee")
 	float HitRadius;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Melee")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Melee")
 	TObjectPtr<UAnimMontage> MeleeAttackMontage;
+
 };
 
 
@@ -50,18 +50,20 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void HitDetect();
 
+	UFUNCTION(BlueprintCallable, Category = "Melee")
 	void Attack();
 
-	mutable FOnAttackCompleted OnAttackComplete;
+	mutable FOnAttackCompleted OnAttackCompleted;
 
 
 private: 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GAS|Melee", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category = "Melee", meta = (AllowPrivateAccess = "true"))
 	TArray<FGASMeleeHitInfo> MeleeHitInfo;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GAS|Melee", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<AGASCharacterBase> OwnerCharacter;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GAS|Melee", meta = (AllowPrivateAccess = "true"))
+
+	AGASCharacterBase* OwnerCharacter;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Melee", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<UGameplayEffect> DamageEffect;
 
 	TObjectPtr<UAnimMontage> CurrentMontage;

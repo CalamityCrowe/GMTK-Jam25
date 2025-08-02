@@ -6,10 +6,21 @@
 #include "Components/GASMeleeComponent.h"
 
 
-AGASEnemyCharacter::AGASEnemyCharacter() : Super()
+AGASEnemyCharacter::AGASEnemyCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	MeleeComponent = CreateDefaultSubobject<UGASMeleeComponent>(TEXT("MeleeComponent"));	
+	if (MeleeComponent)
+	{
+		
+		MeleeComponent->SetIsReplicated(true);
+		MeleeComponent->SetIsReplicated(true);
+		MeleeComponent->SetIsReplicated(true);
+		MeleeComponent->SetIsReplicated(true);
+		MeleeComponent->SetIsReplicated(true);
+		MeleeComponent->SetIsReplicated(true);
+		MeleeComponent->SetIsReplicated(true);
+	}
 }
 
 void AGASEnemyCharacter::BeginPlay()

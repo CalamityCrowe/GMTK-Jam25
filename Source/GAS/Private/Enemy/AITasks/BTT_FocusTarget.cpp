@@ -25,7 +25,7 @@ EBTNodeResult::Type UBTT_FocusTarget::ExecuteTask(UBehaviorTreeComponent& OwnerC
 			if(AActor* act = Cast<AActor>(KeyValue))
 			{
 				AIController->SetFocus(act);
-				EBTNodeResult::Succeeded; 
+				return EBTNodeResult::Succeeded; 
 			}
 		}
 	}

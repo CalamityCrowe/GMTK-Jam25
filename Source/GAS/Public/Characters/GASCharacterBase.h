@@ -15,6 +15,7 @@ class UGASAttributeSetBase;
 class UGameplayEffect;
 class UGASGameplayAbility;
 
+
 UCLASS(BlueprintType)
 class GAS_API UCharacterConfig : public UDataAsset
 {

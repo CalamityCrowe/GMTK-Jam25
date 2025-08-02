@@ -26,6 +26,8 @@ public:
 
 	virtual void FinishDying() override;
 
+	UGASMeleeComponent* GetMeleeComponent() const { return MeleeComponent; }
+
 private: 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GAS|Melee", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UGASMeleeComponent> MeleeComponent;

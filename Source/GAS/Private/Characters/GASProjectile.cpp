@@ -25,7 +25,7 @@ AGASProjectile::AGASProjectile()
 	Collider->OnComponentHit.AddDynamic(this, &AGASProjectile::OnHit);
 }
 
-void AGASProjectile::InitProjectile(const FProjectileDataRow* ProjectileDataRow, FVector Direction)
+void AGASProjectile::InitProjectile(const FProjectileDataRow* ProjectileDataRow, const FVector& Direction)
 {
 	if (!ProjectileDataRow)
 	{

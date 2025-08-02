@@ -32,6 +32,7 @@ void AGASPlayerController::CreateHUD()
 	HUDWidget->AddToViewport(); 
 
 	HUDWidget->UpdateHealthBar(	PS->GetAttributeSetBase()->GetHealthAttribute(),0,0);
+	HUDWidget->UpdateLoop();
 }
 
 void AGASPlayerController::OnPossess(APawn* InPawn)

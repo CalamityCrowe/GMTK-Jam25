@@ -68,3 +68,11 @@ void UGASHUDWidget::UpdateBar(float CurrentValue, float MaxValue, UProgressBar* 
 	}
 }
 
+void UGASHUDWidget::UpdateLoop()
+{
+	if (ProjectileLoopWidget)
+	{
+		ProjectileLoopWidget->PopulateHorizontalBox();
+	}
+}
+

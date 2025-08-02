@@ -34,7 +34,7 @@ class GAS_API AGASCharacterBase : public ACharacter, public IAbilitySystemInterf
 
 public:
 	// Sets default values for this character's properties
-	AGASCharacterBase(const class FObjectInitializer& ObjectInitializer);
+	AGASCharacterBase();
 
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;

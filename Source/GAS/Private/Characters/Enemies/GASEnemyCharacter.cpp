@@ -3,10 +3,13 @@
 
 #include "Characters/Enemies/GASEnemyCharacter.h"
 #include "Enemy/GASEnemyControllerBase.h"
+#include "Components/GASMeleeComponent.h"
 
-AGASEnemyCharacter::AGASEnemyCharacter(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+
+AGASEnemyCharacter::AGASEnemyCharacter() : Super()
 {
-
+	PrimaryActorTick.bCanEverTick = true;
+	MeleeComponent = CreateDefaultSubobject<UGASMeleeComponent>(TEXT("MeleeComponent"));	
 }
 
 void AGASEnemyCharacter::BeginPlay()

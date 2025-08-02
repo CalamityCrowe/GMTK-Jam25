@@ -34,7 +34,7 @@ class GAS_API AGASPlayerCharacter : public AGASCharacterBase
 	GENERATED_BODY()
 
 public:
-	AGASPlayerCharacter(const FObjectInitializer& ObjectInitializer);
+	AGASPlayerCharacter();
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 

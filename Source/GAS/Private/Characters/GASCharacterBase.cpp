@@ -9,7 +9,7 @@
 #include "Gameframework/CharacterMovementComponent.h"
 
 
-AGASCharacterBase::AGASCharacterBase(const FObjectInitializer& ObjectInitializer) :Super(ObjectInitializer)
+AGASCharacterBase::AGASCharacterBase() :Super()
 {
 	PrimaryActorTick.bCanEverTick = false;
 

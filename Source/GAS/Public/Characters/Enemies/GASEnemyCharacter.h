@@ -6,6 +6,7 @@
 #include "Characters/GASCharacterBase.h"
 #include "GASEnemyCharacter.generated.h"
 
+class UGASMeleeComponent;
 /**
  * 
  */
@@ -15,7 +16,7 @@ class GAS_API AGASEnemyCharacter : public AGASCharacterBase
 	GENERATED_BODY()
 public: 
 
-	AGASEnemyCharacter(const class FObjectInitializer& ObjectInitializer);
+	AGASEnemyCharacter();
 
 	virtual void BeginPlay() override;
 
@@ -24,4 +25,8 @@ public:
 	virtual void Die() override; 
 
 	virtual void FinishDying() override;
+
+private: 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GAS|Melee", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UGASMeleeComponent> MeleeComponent;
 };

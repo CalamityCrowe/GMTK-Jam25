@@ -15,7 +15,7 @@
 #include "EnhancedInputSubsystems.h"
 
 
-AGASPlayerCharacter::AGASPlayerCharacter(const FObjectInitializer& ObjectInitializer):Super(ObjectInitializer),
+AGASPlayerCharacter::AGASPlayerCharacter():Super(),
 StartingCameraBoomLength(300.0f),StartingCameraSocketOffset(0,0,0)
 {
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));

@@ -39,8 +39,6 @@ void UGASMeleeComponent::HitDetect()
 		return;
 	}
 
-
-
 	FVector Start = OwnerCharacter->GetMesh()->GetSocketLocation(CurrentSocket);
 	TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypes;
 	ObjectTypes.Add(UEngineTypes::ConvertToObjectType(ECC_Pawn));
@@ -48,7 +46,6 @@ void UGASMeleeComponent::HitDetect()
 	TArray<AActor*> IgnoreActors;
 	IgnoreActors.Add(OwnerCharacter);
 	TArray<FHitResult> Hits;
-
 
 	UKismetSystemLibrary::SphereTraceMultiForObjects(this, Start, Start, CurrentRadius, ObjectTypes, false, IgnoreActors, EDrawDebugTrace::None, Hits, true);
 #if WITH_EDITOR

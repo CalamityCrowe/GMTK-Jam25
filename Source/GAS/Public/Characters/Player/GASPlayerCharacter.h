@@ -1,9 +1,8 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Characters/GASCharacterBase.h"
+#include "Projectile/ProjectileData.h"
 #include "GASPlayerCharacter.generated.h"
 
 class USpringArmComponent;
@@ -29,9 +28,6 @@ public:
 
 };
 
-/**
- *
- */
 UCLASS()
 class GAS_API AGASPlayerCharacter : public AGASCharacterBase
 {
@@ -51,7 +47,15 @@ public:
 
 	FVector2D GetMovementAxis() const { return MovementAxis; }
 	FVector2D GetLookAxis() const { return LookAxis; }
+	
+	UPROPERTY(EditDefaultsOnly, meta = (ClampMin = 1), Category = "Loop")
+	int32 StartingLoopSize = 3;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Loop")
+	TArray<EProjectileType> AvailableProjectileTypes;
+
+	TArray<EProjectileType> GetProjectileLoop() const { return ProjectileLoop; }
+	void UpdateProjectileLoop(const TArray<EProjectileType>& InProjectileLoop) { ProjectileLoop = InProjectileLoop; }
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "GAS|Camera")
 	TObjectPtr<USpringArmComponent> CameraBoom;
@@ -80,4 +84,6 @@ private:
 
 	FVector2D MovementAxis;
 	FVector2D LookAxis;
+
+	TArray<EProjectileType> ProjectileLoop;
 };

@@ -92,8 +92,8 @@ void UGASGA_FireGun::EventRecieved(FGameplayTag EventTag, FGameplayEventData Eve
 #endif
 			
 			FVector Start = Player->GetMesh()->GetSocketLocation(FName("Muzzle"));
-			FVector ForwardVector = Player->GetCamera()->GetForwardVector();
-			FVector End = Start + Player->GetCamera()->GetForwardVector() * (ProjectileDataRow->ProjectileModifiers.Speed * ProjectileDataRow->ProjectileModifiers.Lifetime);
+			FVector ForwardVector = Player->GetActorForwardVector();
+			FVector End = Start + ForwardVector * (ProjectileDataRow->ProjectileModifiers.Speed * ProjectileDataRow->ProjectileModifiers.Lifetime);
 			FVector Direction = (End - Start).GetSafeNormal();
 
 			FRotator SpawnRotation = UKismetMathLibrary::FindLookAtRotation(Start, End);

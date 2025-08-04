@@ -4,23 +4,25 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimNotifies/AnimNotify.h"
-#include "AN_FinishDeath.generated.h"
+#include "AN_FinishStun.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class GAS_API UAN_FinishDeath : public UAnimNotify
+class GAS_API UAN_FinishStun : public UAnimNotify
 {
 	GENERATED_BODY()
 	
-public: 
-	UAN_FinishDeath(); 
+public:
+	UAN_FinishStun();
+
 	virtual void Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, const FAnimNotifyEventReference& EventReference) override;
 
-	/** Returns the name of this notify */
+	// This is the name of the notify that will be displayed in the editor
 	virtual FString GetNotifyName_Implementation() const override
 	{
-		return TEXT("FinishDeath");
+		return FString("Finish Stun");
 	}
+
 };

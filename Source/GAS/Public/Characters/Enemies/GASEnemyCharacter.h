@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Characters/GASCharacterBase.h"
+#include "GameplayEffectTypes.h"
 #include "GASEnemyCharacter.generated.h"
 
 class UGASMeleeComponent;
@@ -20,6 +21,8 @@ public:
 
 	virtual void BeginPlay() override;
 
+	virtual void PossessedBy(AController* NewController) override;
+
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void Die() override; 
@@ -31,4 +34,12 @@ public:
 private: 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GAS|Melee", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UGASMeleeComponent> MeleeComponent;
+
+	class UGASAbilitySystemComponent* HardRefASC = nullptr;
+	class UGASAttributeSetBase* HardRefAttributeSet = nullptr;
+
+
+	FDelegateHandle HealthChangedDelegateHandle;
+
+	virtual void OnHealthChanged(const FOnAttributeChangeData& Data);
 };

@@ -95,6 +95,23 @@ void UGASAttributeSetBase::PostGameplayEffectExecute(const FGameplayEffectModCal
 			}
 			const float NewHealth = GetHealth() - LocalDamage;
 			SetHealth(FMath::Clamp(NewHealth, 0.0f, GetMaxHealth()));
+
+			if (TargetCharacter && WasAlive) 
+			{
+				const FHitResult* Hit = Data.EffectSpec.GetContext().GetHitResult();
+
+				if(Hit)
+				{
+					TargetCharacter->PlayHitReact();
+				}
+				else
+				{
+					TargetCharacter->PlayHitReact();
+				}
+
+
+			}
+
 		}
 	}
 	else if (Data.EvaluatedData.Attribute == GetHealthAttribute())

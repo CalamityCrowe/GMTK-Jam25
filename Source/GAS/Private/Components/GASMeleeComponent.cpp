@@ -61,6 +61,7 @@ void UGASMeleeComponent::HitDetect()
 						FGameplayEffectSpecHandle DamageSpecHandle = HitASC->MakeOutgoingSpec(DamageEffect, 0, EffectContext);
 						DamageSpecHandle.Data->SetSetByCallerMagnitude(FGameplayTag::RequestGameplayTag(FName("Data.Damage")), CurrentDamage);
 						HitASC->ApplyGameplayEffectSpecToSelf(*DamageSpecHandle.Data.Get());
+						HitASC->AddLooseGameplayTag(FGameplayTag::RequestGameplayTag(FName("State.Stun")));
 					}
 				}
 			}

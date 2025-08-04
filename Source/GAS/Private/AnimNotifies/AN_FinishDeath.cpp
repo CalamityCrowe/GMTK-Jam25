@@ -9,7 +9,7 @@ UAN_FinishDeath::UAN_FinishDeath()
 	NotifyColor = FColor::Red;
 }
 
-void UAN_FinishDeath::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation)
+void UAN_FinishDeath::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, const FAnimNotifyEventReference& EventReference)
 {
 	Super::Notify(MeshComp, Animation);
 	if(AGASCharacterBase * CharRef = Cast<AGASCharacterBase>(MeshComp->GetOwner()))

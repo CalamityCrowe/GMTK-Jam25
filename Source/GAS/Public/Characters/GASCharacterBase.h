@@ -65,6 +65,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "GAS|GASCharacter")
 	virtual void FinishDying();
 
+	virtual void FinishStun();
+
+	virtual void PlayHitReact(); 
 
 protected:
 	// Called when the game starts or when spawned
@@ -79,6 +82,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "GAS|Animation")
 	TObjectPtr<UAnimMontage> DeathMontage;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "GAS|Animation")
+	TObjectPtr<UAnimMontage> HitMontage;
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "GAS|Config")
 	TObjectPtr<UCharacterConfig> CharacterConfig;

@@ -124,6 +124,26 @@ void AGASCharacterBase::FinishDying()
 	Destroy();
 }
 
+void AGASCharacterBase::FinishStun()
+{
+	if (ASC.IsValid()) 
+	{
+		if (ASC->HasMatchingGameplayTag(FGameplayTag::RequestGameplayTag("State.Stun")))
+		{
+			ASC->RemoveLooseGameplayTag(FGameplayTag::RequestGameplayTag("State.Stun"));
+		}
+	}
+}
+
+void AGASCharacterBase::PlayHitReact()
+{
+	if(HitMontage)
+	{
+		PlayAnimMontage(HitMontage);
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Hit React Played"));
+	}
+}
+
 // Called when the game starts or when spawned
 void AGASCharacterBase::BeginPlay()
 {

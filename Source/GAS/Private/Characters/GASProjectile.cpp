@@ -22,7 +22,7 @@ AGASProjectile::AGASProjectile()
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovement"));
 
 	Collider->SetSphereRadius(15.0f);
-	Collider->OnComponentHit.AddDynamic(this, &AGASProjectile::OnHit);
+	Collider->OnComponentBeginOverlap.AddDynamic(this, &AGASProjectile::OnOverlapBegin);
 }
 
 void AGASProjectile::InitProjectile(const FProjectileDataRow* ProjectileDataRow, const FVector& Direction)
@@ -46,6 +46,11 @@ void AGASProjectile::InitProjectile(const FProjectileDataRow* ProjectileDataRow,
 
 void AGASProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
+
+}
+
+void AGASProjectile::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
 	if (OtherActor != GetInstigator())
 	{
 		if (AGASCharacterBase* Character = Cast<AGASCharacterBase>(OtherActor))
@@ -53,15 +58,17 @@ void AGASProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 			if (UGASAbilitySystemComponent* GASC = Cast<UGASAbilitySystemComponent>(Character->GetAbilitySystemComponent()))
 			{
 				FGameplayEffectContextHandle EffectContext = DamageEffect.Data.Get()->GetContext();
+				EffectContext.AddSourceObject(this);
+				EffectContext.AddHitResult(SweepResult);
+								
 				GASC->ApplyGameplayEffectSpecToSelf(*DamageEffect.Data.Get());
 
 				// maybe apply other effects here, like knockback or stun
 				// maybe sound or particles
 
-				Destroy(); 
+				Destroy();
 			}
 		}
 	}
 }
-
 

@@ -107,6 +107,8 @@ void AGASCharacterBase::Die()
 	{
 		ASC->CancelAllAbilities(); 
 		
+		StopAnimMontage(HitMontage); 
+
 		if(DeathMontage)
 		{
 			PlayAnimMontage(DeathMontage);

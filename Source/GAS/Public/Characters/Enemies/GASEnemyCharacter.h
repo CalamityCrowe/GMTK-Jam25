@@ -42,4 +42,6 @@ private:
 	FDelegateHandle HealthChangedDelegateHandle;
 
 	virtual void OnHealthChanged(const FOnAttributeChangeData& Data);
+
+	
 };

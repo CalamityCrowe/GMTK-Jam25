@@ -89,13 +89,14 @@ void UGASAttributeSetBase::PostGameplayEffectExecute(const FGameplayEffectModCal
 			{
 				WasAlive = TargetCharacter->IsAlive();
 			}
-			if (!TargetCharacter->IsAlive())
-			{
 
-			}
 			const float NewHealth = GetHealth() - LocalDamage;
 			SetHealth(FMath::Clamp(NewHealth, 0.0f, GetMaxHealth()));
 
+			if (!TargetCharacter->IsAlive())
+			{
+				WasAlive = false;
+			}
 			if (TargetCharacter && WasAlive) 
 			{
 				const FHitResult* Hit = Data.EffectSpec.GetContext().GetHitResult();

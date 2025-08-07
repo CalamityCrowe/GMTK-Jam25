@@ -55,4 +55,9 @@ public:
 	void SetStateAsDying();
 
 	FName GetTargetKeyName() const { return TargetKeyName; }
+
+	UFUNCTION(BlueprintPure)
+	AActor* GetTargetActor() const; 
+
+
 };

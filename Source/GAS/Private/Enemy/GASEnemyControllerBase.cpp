@@ -49,7 +49,7 @@ void AGASEnemyControllerBase::SetStateAsSpawning()
 
 void AGASEnemyControllerBase::SetStateAsAttacking(UObject* AttackTarget)
 {
-	if(AttackTarget)
+	if (AttackTarget)
 	{
 		Blackboard->SetValueAsObject(TargetKeyName, AttackTarget);
 	}
@@ -63,3 +63,13 @@ void AGASEnemyControllerBase::SetStateAsDying()
 	Blackboard->ClearValue(POIKeyName);
 	ClearFocus(EAIFocusPriority::Gameplay);
 }
+
+AActor* AGASEnemyControllerBase::GetTargetActor() const
+{
+	if (!Blackboard)
+	{
+		return nullptr;
+	}
+	return Cast<AActor>(Blackboard->GetValueAsObject(TargetKeyName));
+}
+

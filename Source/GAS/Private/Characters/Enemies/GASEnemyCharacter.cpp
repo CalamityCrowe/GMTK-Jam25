@@ -55,7 +55,7 @@ void AGASEnemyCharacter::Die()
 	if(AGASEnemyControllerBase* EC = Cast<AGASEnemyControllerBase>(GetController()))
 	{
 		EC->SetStateAsDying();
-		EC->UnPossess(); 
+		//EC->UnPossess(); 
 	}
 }
 

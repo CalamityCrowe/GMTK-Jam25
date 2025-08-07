@@ -106,7 +106,6 @@ void AGASCharacterBase::Die()
 	if (ASC.IsValid())
 	{
 		ASC->CancelAllAbilities(); 
-
 		
 		if(DeathMontage)
 		{

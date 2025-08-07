@@ -40,7 +40,7 @@ UAsyncTaskAttributeChange* UAsyncTaskAttributeChange::ListenForAttributesChange(
 
 void UAsyncTaskAttributeChange::EndTask()
 {
-	if(IsValid(ASC))
+	if(IsValid(ASC) && AttributeToListenFor.IsValid())
 	{
 		ASC->GetGameplayAttributeValueChangeDelegate(AttributeToListenFor).RemoveAll(this); 
 		for (FGameplayAttribute& Attribute : AttributesToListenFor)

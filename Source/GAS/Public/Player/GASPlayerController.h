@@ -24,6 +24,8 @@ public:
 	
 	UGASHUDWidget* GetHUDWidget() const { return HUDWidget; }
 
+	virtual void LookAtCursor();
+
 protected: 
 
 	virtual void OnPossess(APawn* InPawn) override;
@@ -36,5 +38,6 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = "GAS|HUD")
 	TObjectPtr<UGASHUDWidget> HUDWidget;
 	
+
 	
 };

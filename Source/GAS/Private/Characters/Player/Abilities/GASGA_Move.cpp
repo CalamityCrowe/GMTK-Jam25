@@ -16,14 +16,13 @@ void UGASGA_Move::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 	if (AGASPlayerCharacter* Player = Cast<AGASPlayerCharacter>(ActorInfo->AvatarActor.Get())) 
 	{
+
 		if (CommitAbility(Handle, ActorInfo, ActivationInfo)) 
 		{
 			FVector2D Axis = Player->GetMovementAxis();
 			FRotator ContRot = Player->GetControlRotation();
-			const FVector XWorldVector = UKismetMathLibrary::GetRightVector(FRotator(0, ContRot.Yaw, ContRot.Roll));
-			const FVector YWorldVector = UKismetMathLibrary::GetForwardVector(FRotator(0, ContRot.Yaw, 0));
-			Player->AddMovementInput(XWorldVector, Axis.X, false);
-			Player->AddMovementInput(YWorldVector, Axis.Y, false);
+			Player->AddMovementInput(Player->GetMoveDirections().Right, Axis.X, false);
+			Player->AddMovementInput(Player->GetMoveDirections().Forward, Axis.Y, false);
 		}
 	}
 	EndAbility(Handle, ActorInfo, ActivationInfo, true, true);

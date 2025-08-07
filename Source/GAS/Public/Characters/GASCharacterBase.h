@@ -15,6 +15,17 @@ class UGASAttributeSetBase;
 class UGameplayEffect;
 class UGASGameplayAbility;
 
+struct FMoveDirections
+{
+public: 
+	FVector Forward;
+	FVector Right;
+	
+	FMoveDirections()
+		: Forward(FVector::ZeroVector), Right(FVector::ZeroVector)
+	{}
+
+};
 
 UCLASS(BlueprintType)
 class GAS_API UCharacterConfig : public UDataAsset
@@ -69,6 +80,8 @@ public:
 
 	virtual void PlayHitReact(); 
 
+	FMoveDirections GetMoveDirections() const { return MoveDirections; }
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -94,5 +107,6 @@ protected:
 
 	virtual void SetHealth(float NewHealth);
 
-
+private: 
+	FMoveDirections MoveDirections;
 };

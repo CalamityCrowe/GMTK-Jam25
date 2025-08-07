@@ -3,6 +3,7 @@
 
 #include "Characters/Player/Abilities/GASGA_Look.h"
 #include "Characters/Player/GASPlayerCharacter.h"
+#include "Player/GASPlayerController.h"
 #include <Kismet/KismetMathLibrary.h>
 UGASGA_Look::UGASGA_Look()
 {
@@ -17,13 +18,8 @@ void UGASGA_Look::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const
 	{
 		if (CommitAbility(Handle, ActorInfo, ActivationInfo))
 		{
-			FVector2D Axis = Character->GetLookAxis();
-			FRotator ContRot = Character->GetControlRotation();
-			if (APlayerController* PC = Cast<APlayerController>(Character->GetController()))
-			{
-				PC->AddYawInput(Axis.X);
-				PC->AddPitchInput(Axis.Y);
-			}
+			AGASPlayerController* PC = Cast<AGASPlayerController>(ActorInfo->PlayerController.Get());
+			PC->LookAtCursor();
 		}
 	}
 	EndAbility(Handle, ActorInfo, ActivationInfo, true, true);

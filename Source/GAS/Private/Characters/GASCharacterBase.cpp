@@ -148,7 +148,8 @@ void AGASCharacterBase::PlayHitReact()
 void AGASCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	MoveDirections.Forward = GetActorForwardVector();
+	MoveDirections.Right = GetActorRightVector();
 }
 
 void AGASCharacterBase::AddChararacterAbilities()

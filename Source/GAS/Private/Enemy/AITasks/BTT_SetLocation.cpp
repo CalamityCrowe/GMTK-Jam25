@@ -25,6 +25,7 @@ EBTNodeResult::Type UBTT_SetLocation::ExecuteTask(UBehaviorTreeComponent& OwnerC
 			if (AActor* ControlledActor = AIController->GetPawn())
 			{
 				ControlledActor->SetActorLocation(Location);
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Set Location: %s"), *Location.ToString()));
 				return EBTNodeResult::Succeeded;
 			}
 		}

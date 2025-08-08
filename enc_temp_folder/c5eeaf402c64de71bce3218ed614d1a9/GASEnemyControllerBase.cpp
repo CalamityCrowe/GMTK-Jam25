@@ -56,7 +56,6 @@ void AGASEnemyControllerBase::SetStateAsIdle()
 
 void AGASEnemyControllerBase::SetStateAsSpawning()
 {
-	Blackboard->SetValueAsObject("SelfActor", GetPawn()); 
 	Blackboard->SetValueAsEnum(AIStateKeyName, static_cast<uint8>(EAIStates::Spawning));
 }
 

@@ -8,6 +8,7 @@
 #include "GASEnemyCharacter.generated.h"
 
 class UGASMeleeComponent;
+class UBehaviorTree;
 /**
  * 
  */
@@ -31,6 +32,8 @@ public:
 
 	UGASMeleeComponent* GetMeleeComponent() const { return MeleeComponent; }
 
+	UBehaviorTree* GetBehaviorTree() const { return BehaviorTree; }
+
 private: 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GAS|Melee", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UGASMeleeComponent> MeleeComponent;
@@ -43,5 +46,8 @@ private:
 
 	virtual void OnHealthChanged(const FOnAttributeChangeData& Data);
 
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Blackboard", meta = (AllowPrivateAccess = true))
+	TObjectPtr<UBehaviorTree> BehaviorTree;
 	
 };

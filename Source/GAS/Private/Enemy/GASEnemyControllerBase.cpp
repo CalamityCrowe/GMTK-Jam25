@@ -5,6 +5,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/Character.h"
+#include "Characters/Enemies/GASEnemyCharacter.h"
 
 AGASEnemyControllerBase::AGASEnemyControllerBase(const FObjectInitializer& ObjectInitializer)
 {
@@ -19,11 +20,16 @@ void AGASEnemyControllerBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (BehaviorTree)
+	if (AGASEnemyCharacter* EnemyCharacter = Cast<AGASEnemyCharacter>(GetPawn())) 
 	{
-		RunBehaviorTree(BehaviorTree);
-		SetStateAsSpawning();
+		if (EnemyCharacter->GetBehaviorTree())
+		{
+			RunBehaviorTree(EnemyCharacter->GetBehaviorTree());
+			SetStateAsSpawning();
+		}
 	}
+
+	
 
 }
 

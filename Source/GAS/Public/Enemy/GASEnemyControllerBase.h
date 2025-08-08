@@ -38,8 +38,7 @@ private:
 	FName POIKeyName;
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Blackboard|Keys", meta = (AllowPrivateAccess = true))
 	FName AIStateKeyName;
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Blackboard", meta = (AllowPrivateAccess = true))
-	TObjectPtr<UBehaviorTree> BehaviorTree;
+
 
 public:
 	UFUNCTION(BlueprintPure)

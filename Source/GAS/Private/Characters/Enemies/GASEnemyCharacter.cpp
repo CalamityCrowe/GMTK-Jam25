@@ -31,6 +31,7 @@ void AGASEnemyCharacter::BeginPlay()
 		IntializeAttributes();
 
 		SetHealth(GetMaxHealth()); // Set initial health, can be modified as needed
+		AddChararacterAbilities();
 
 		HealthChangedDelegateHandle = ASC->GetGameplayAttributeValueChangeDelegate(AttributeSetBase->GetHealthAttribute()).AddUObject(this, &AGASEnemyCharacter::OnHealthChanged);
 	}
@@ -62,6 +63,17 @@ void AGASEnemyCharacter::Die()
 void AGASEnemyCharacter::FinishDying()
 {
 	Super::FinishDying();
+}
+
+FVector AGASEnemyCharacter::GetAttackTargetLocation() const
+{
+	AGASEnemyControllerBase* EnemyController = Cast<AGASEnemyControllerBase>(GetController());
+	if (EnemyController)
+	{
+		return EnemyController->GetTargetActor()->GetActorLocation(); 
+	}
+
+	return FVector();
 }
 
 void AGASEnemyCharacter::OnHealthChanged(const FOnAttributeChangeData& Data)

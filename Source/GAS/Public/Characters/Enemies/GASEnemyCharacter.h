@@ -34,6 +34,8 @@ public:
 
 	UBehaviorTree* GetBehaviorTree() const { return BehaviorTree; }
 
+
+	FVector GetAttackTargetLocation() const;
 private: 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GAS|Melee", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UGASMeleeComponent> MeleeComponent;

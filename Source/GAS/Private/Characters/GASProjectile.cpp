@@ -21,8 +21,11 @@ AGASProjectile::AGASProjectile()
 
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovement"));
 
+
+
 	Collider->SetSphereRadius(15.0f);
 	Collider->OnComponentBeginOverlap.AddDynamic(this, &AGASProjectile::OnOverlapBegin);
+	Collider->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void AGASProjectile::InitProjectile(const FProjectileDataRow* ProjectileDataRow, const FVector& Direction)
@@ -42,6 +45,21 @@ void AGASProjectile::InitProjectile(const FProjectileDataRow* ProjectileDataRow,
 	Collider->SetWorldScale3D(ProjectileDataRow->ProjectileModifiers.ProjectileScale);
 
 	ProjectileMovement->Velocity = Direction * Speed;
+	
+	Collider->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+
+}
+
+void AGASProjectile::InitProjectile(const float NewSpeed, const float NewRange, const FVector& Direction)
+{
+	Speed = NewSpeed;
+	Range = NewRange;
+	float Lifetime = Range / Speed;
+	SetLifeSpan(Lifetime);
+
+	ProjectileMovement->Velocity = Direction * Speed;
+
+	Collider->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 }
 
 void AGASProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)

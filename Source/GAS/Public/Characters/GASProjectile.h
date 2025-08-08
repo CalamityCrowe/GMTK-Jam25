@@ -22,6 +22,7 @@ public:
 	AGASProjectile();
 
 	void InitProjectile(const FProjectileDataRow* ProjectileDataRow, const FVector& Direction); 
+	void InitProjectile(const float Speed, const float Range, const FVector& Direction);
 
 	UPROPERTY(BlueprintReadOnly, Category = "GAS", meta = (ExposeOnSpawn = true, AllowPrivateAccess = true))
 	FGameplayEffectSpecHandle DamageEffect;

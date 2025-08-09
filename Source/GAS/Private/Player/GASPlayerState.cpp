@@ -122,6 +122,6 @@ void AGASPlayerState::MoveSpeedChange(const FOnAttributeChangeData& Data)
 
 	if (AGASPlayerController* PC = Cast<AGASPlayerController>(GetOwner()))
 	{
-
+		PC->GetCharacter()->GetCharacterMovement()->MaxWalkSpeed = MoveSpeed;
 	}
 }

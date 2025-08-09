@@ -13,7 +13,10 @@ UGASAttributeSetBase::UGASAttributeSetBase()
 void UGASAttributeSetBase::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
 {
 	Super::PreAttributeChange(Attribute, NewValue);
-
+	if(Attribute == GetMoveSpeedAttribute())
+	{
+		NewValue = FMath::Clamp(NewValue, 150.0f, 1000.0f);
+	}
 }
 
 void UGASAttributeSetBase::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)

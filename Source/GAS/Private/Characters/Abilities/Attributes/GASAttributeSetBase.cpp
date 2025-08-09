@@ -14,11 +14,6 @@ void UGASAttributeSetBase::PreAttributeChange(const FGameplayAttribute& Attribut
 {
 	Super::PreAttributeChange(Attribute, NewValue);
 
-	if (Attribute == GetMoveSpeedAttribute())
-	{
-		// clamps the movement speed to a range of 150 to 1000
-		NewValue = FMath::Clamp<float>(NewValue,150,100);
-	}
 }
 
 void UGASAttributeSetBase::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
@@ -119,6 +114,14 @@ void UGASAttributeSetBase::PostGameplayEffectExecute(const FGameplayEffectModCal
 	{
 		// handle health changes here after if it wasn't done via damage
 		SetHealth(FMath::Clamp(GetHealth(),0.0f, GetMaxHealth()));
+	}
+	else if (Data.EvaluatedData.Attribute == GetMaxHealthAttribute())
+	{
+		SetMaxHealth(FMath::Clamp(GetMaxHealth(), 0.0f, 100.0f));
+	}
+	else if (Data.EvaluatedData.Attribute == GetMoveSpeedAttribute())
+	{
+		SetMoveSpeed(FMath::Clamp(GetMoveSpeed(), 150.0f, 1000.0f));
 	}
 
 

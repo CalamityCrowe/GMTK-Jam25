@@ -78,7 +78,8 @@ void AGASPlayerCharacter::PossessedBy(AController* NewController)
 		ASC->SetTagMapCount(DeadTag, 0);
 
 		SetHealth(GetMaxHealth());
-		
+		SetMoveSpeed(GetMoveSpeed());
+
 		AddChararacterAbilities();
 
 		if (AGASPlayerController* PC = Cast<AGASPlayerController>(GetController()))

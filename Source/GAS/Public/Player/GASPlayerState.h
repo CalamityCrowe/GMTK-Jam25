@@ -54,6 +54,7 @@ protected:
 	FDelegateHandle HealthChangedDelegateHandle;
 	FDelegateHandle MaxHealthChangedDelegateHandle;
 	FDelegateHandle HealthRegenRateChangedDelegateHandle;
+	FDelegateHandle MoveSpeedChangedDelegateHandle;
 
 
 	virtual void BeginPlay() override;
@@ -61,6 +62,6 @@ protected:
 	virtual void HealthChanged(const FOnAttributeChangeData& Data); 
 	virtual void MaxHealthChanged(const FOnAttributeChangeData& Data);
 	virtual void HealthRegenRateChanged(const FOnAttributeChangeData& Data); 
-
+	virtual void MoveSpeedChange(const FOnAttributeChangeData& Data); 
 
 };

@@ -202,4 +202,14 @@ void AGASCharacterBase::SetHealth(float NewHealth)
 	}
 }
 
+void AGASCharacterBase::SetMoveSpeed(float NewMoveSpeed)
+{
+	if (AttributeSetBase.IsValid())
+	{
+		AttributeSetBase->SetMoveSpeed(NewMoveSpeed);
+	}
+}
+
+
+
 

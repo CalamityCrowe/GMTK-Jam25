@@ -24,6 +24,7 @@ public:
 
 	virtual void NativeDestruct() override;
 
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
 	UTextBlock* HealthText;
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
 	UProgressBar* HealthBar;

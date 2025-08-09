@@ -70,6 +70,10 @@ FVector AGASEnemyCharacter::GetAttackTargetLocation() const
 	AGASEnemyControllerBase* EnemyController = Cast<AGASEnemyControllerBase>(GetController());
 	if (EnemyController)
 	{
+		if (!EnemyController->GetTargetActor())
+		{
+			return FVector::ZeroVector; // No target actor, return zero vector
+		}
 		return EnemyController->GetTargetActor()->GetActorLocation(); 
 	}
 

@@ -6,6 +6,7 @@
 #include "Characters/Abilities/GASAbilitySystemComponent.h"
 #include "Characters/Player/GASPlayerCharacter.h"
 #include "Player/GASPlayerController.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 AGASPlayerState::AGASPlayerState()
 {
@@ -70,6 +71,7 @@ void AGASPlayerState::BeginPlay()
 		HealthChangedDelegateHandle = ASC->GetGameplayAttributeValueChangeDelegate(AttributeSetBase->GetHealthAttribute()).AddUObject(this, &AGASPlayerState::HealthChanged);
 		MaxHealthChangedDelegateHandle = ASC->GetGameplayAttributeValueChangeDelegate(AttributeSetBase->GetMaxHealthAttribute()).AddUObject(this, &AGASPlayerState::MaxHealthChanged);
 		HealthRegenRateChangedDelegateHandle = ASC->GetGameplayAttributeValueChangeDelegate(AttributeSetBase->GetHealthRegenRateAttribute()).AddUObject(this, &AGASPlayerState::HealthRegenRateChanged);
+		MoveSpeedChangedDelegateHandle = ASC->GetGameplayAttributeValueChangeDelegate(AttributeSetBase->GetMoveSpeedAttribute()).AddUObject(this, &AGASPlayerState::MoveSpeedChange);
 	}
 }
 
@@ -110,5 +112,16 @@ void AGASPlayerState::HealthRegenRateChanged(const FOnAttributeChangeData& Data)
 		// do something with the player controller if needed
 		// mainly Updating the HUD for when it needs to be updated
 	}
+}
 
+void AGASPlayerState::MoveSpeedChange(const FOnAttributeChangeData& Data)
+{
+	float MoveSpeed = Data.NewValue;
+
+	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, FString::Printf(TEXT("Move Speed Changed: %f"), MoveSpeed));
+
+	if (AGASPlayerController* PC = Cast<AGASPlayerController>(GetOwner()))
+	{
+
+	}
 }

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "Gamemode/WaveData.h"
 #include "GASGameMode.generated.h"
 
 /**
@@ -19,4 +20,17 @@ public:
 protected:
 
 	virtual void BeginPlay() override;
+
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "GAS|WaveData")
+	void SpawnWave();
+
+private: 
+	UPROPERTY(EditDefaultsOnly, Category = "GAS|WaveData", meta = (AllowPrivateAccess = true))
+	UDataTable* WaveDataTable;
+
+	int32 CurrentWaveIndex = 0;
+
+	void StartNextWave();
+
 };

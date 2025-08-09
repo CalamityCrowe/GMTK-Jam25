@@ -107,6 +107,8 @@ protected:
 
 	virtual void SetHealth(float NewHealth);
 
+	virtual void SetMoveSpeed(float NewMoveSpeed);
+
 private: 
 	FMoveDirections MoveDirections;
 };

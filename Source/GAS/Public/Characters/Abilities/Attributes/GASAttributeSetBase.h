@@ -26,6 +26,7 @@ public:
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 
+
 	// Example attributes
 	UPROPERTY(BlueprintReadOnly, Category = "Health")
 	FGameplayAttributeData Health;
@@ -55,5 +56,8 @@ public:
 
 
 
-	
+
+
+
+
 };

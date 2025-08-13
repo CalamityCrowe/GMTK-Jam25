@@ -77,7 +77,7 @@ void AGASProjectile::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor*
 			{
 				FGameplayEffectContextHandle EffectContext = DamageEffect.Data.Get()->GetContext();
 				EffectContext.AddSourceObject(this);
-				EffectContext.AddHitResult(SweepResult);
+				//EffectContext.AddHitResult(SweepResult);
 								
 				GASC->ApplyGameplayEffectSpecToSelf(*DamageEffect.Data.Get());
 

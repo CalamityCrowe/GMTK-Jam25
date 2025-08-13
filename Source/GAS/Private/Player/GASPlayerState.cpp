@@ -118,8 +118,6 @@ void AGASPlayerState::MoveSpeedChange(const FOnAttributeChangeData& Data)
 {
 	float MoveSpeed = Data.NewValue;
 
-	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, FString::Printf(TEXT("Move Speed Changed: %f"), MoveSpeed));
-
 	if (AGASPlayerController* PC = Cast<AGASPlayerController>(GetOwner()))
 	{
 		PC->GetCharacter()->GetCharacterMovement()->MaxWalkSpeed = MoveSpeed;

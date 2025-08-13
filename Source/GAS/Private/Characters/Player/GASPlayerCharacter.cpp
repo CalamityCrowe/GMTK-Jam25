@@ -14,6 +14,8 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 
+#include "Kismet/KismetSystemLibrary.h"
+
 
 AGASPlayerCharacter::AGASPlayerCharacter():Super(),
 StartingCameraBoomLength(300.0f),StartingCameraSocketOffset(0,0,0)
@@ -102,6 +104,8 @@ UCameraComponent* AGASPlayerCharacter::GetCamera() const
 void AGASPlayerCharacter::FinishDying()
 {	
 	Super::FinishDying();
+	APlayerController* PC = Cast<APlayerController>(GetController());
+	UKismetSystemLibrary::QuitGame(GetWorld(),PC, EQuitPreference::Quit,true);
 }
 
 void AGASPlayerCharacter::BeginPlay()

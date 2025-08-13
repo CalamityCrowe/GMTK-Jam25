@@ -19,6 +19,7 @@ void UGASAttributeSetBase::PreAttributeChange(const FGameplayAttribute& Attribut
 	}
 }
 
+
 void UGASAttributeSetBase::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
 	Super::PostGameplayEffectExecute(Data);
@@ -122,11 +123,6 @@ void UGASAttributeSetBase::PostGameplayEffectExecute(const FGameplayEffectModCal
 	{
 		SetMaxHealth(FMath::Clamp(GetMaxHealth(), 0.0f, 100.0f));
 	}
-	else if (Data.EvaluatedData.Attribute == GetMoveSpeedAttribute())
-	{
-		SetMoveSpeed(FMath::Clamp(GetMoveSpeed(), 150.0f, 1000.0f));
-	}
-
 
 }
 

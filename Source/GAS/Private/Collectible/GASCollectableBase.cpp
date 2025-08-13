@@ -50,16 +50,11 @@ void AGASCollectableBase::OnCollectibleOverlap(UPrimitiveComponent* OverlappedCo
 		FGameplayEffectContextHandle EffectContext = Character->GetAbilitySystemComponent()->MakeEffectContext();
 		EffectContext.AddSourceObject(this); // Add the pickup as the source object
 
-		FGameplayEffectSpecHandle CollectEffectSpecHandle = Character->GetAbilitySystemComponent()->MakeOutgoingSpec(CollectEffect, 0, EffectContext);
+		FGameplayEffectSpecHandle CollectEffectSpecHandle = Character->GetAbilitySystemComponent()->MakeOutgoingSpec(CollectEffect, 1, EffectContext);
 		CollectEffectSpecHandle.Data->SetSetByCallerMagnitude(FGameplayTag::RequestGameplayTag(FName("Data.Pickup")), CollectibleValue); // Set the health amount to be added
 		Character->GetAbilitySystemComponent()->ApplyGameplayEffectSpecToSelf(*CollectEffectSpecHandle.Data.Get());
 
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, CollectParticle, GetActorLocation(), GetActorRotation());
-
-		// Optionally destroy the pickup after applying the effect
 		Destroy();
 	}
-
-
-
 }

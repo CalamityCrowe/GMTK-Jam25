@@ -17,10 +17,8 @@ class GAS_API AGASGameMode : public AGameModeBase
 public: 
 	AGASGameMode();
 
-	UFUNCTION(BlueprintPure)
 	int32 GetEnemiesKilled() const { return EnemiesKilled; }
-	UFUNCTION(BlueprintPure)
-	float GetTimeSurvived() const { return FMath::Floor(TimeSurvived); }
+	float GetTimeSurvived() const { return TimeSurvived; }
 
 	void IncrementEnemiesKilled() { EnemiesKilled++; }
 

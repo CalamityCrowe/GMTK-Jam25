@@ -6,6 +6,7 @@
 #include "Components/GASMeleeComponent.h"
 #include "Characters/Abilities/GASAbilitySystemComponent.h"
 #include "Characters/Abilities/Attributes/GASAttributeSetBase.h"
+#include "GAS/GASGameMode.h"
 
 AGASEnemyCharacter::AGASEnemyCharacter()
 {
@@ -55,6 +56,11 @@ void AGASEnemyCharacter::Die()
 	Super::Die();
 	if(AGASEnemyControllerBase* EC = Cast<AGASEnemyControllerBase>(GetController()))
 	{
+		AGASGameMode* GM = Cast<AGASGameMode>(GetWorld()->GetAuthGameMode());
+		if (GM)
+		{
+			GM->IncrementEnemiesKilled();
+		}
 		EC->SetStateAsDying();
 		//EC->UnPossess(); 
 	}

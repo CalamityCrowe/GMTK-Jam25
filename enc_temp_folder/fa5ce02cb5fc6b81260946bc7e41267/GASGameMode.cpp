@@ -5,10 +5,7 @@
 
 AGASGameMode::AGASGameMode()
 {
-	PrimaryActorTick.bCanEverTick = true;
 
-	// Set the default pawn class to your character class
-	// DefaultPawnClass = AYourCharacterClass::StaticClass();
 }
 
 void AGASGameMode::BeginPlay()
@@ -22,7 +19,6 @@ void AGASGameMode::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 
 	TimeSurvived += DeltaSeconds;
-	GEngine->AddOnScreenDebugMessage(-1, 0.0f, FColor::Green, FString::Printf(TEXT("Time Survived: %f"), TimeSurvived));
 }
 
 

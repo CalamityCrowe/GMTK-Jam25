@@ -6,7 +6,7 @@
 
 UAN_FinishStun::UAN_FinishStun()
 {
-	NotifyColor = FColor::Green;
+	//NotifyColor = FColor::Green;
 }
 
 void UAN_FinishStun::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, const FAnimNotifyEventReference& EventReference)

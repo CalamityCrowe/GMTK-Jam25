@@ -22,10 +22,10 @@ public:
 	FName SocketName;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Melee")
-	float DamageAmount;
+	float DamageAmount = 0.0f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Melee")
-	float HitRadius;
+	float HitRadius = 10.0f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Melee")
 	TObjectPtr<UAnimMontage> MeleeAttackMontage;

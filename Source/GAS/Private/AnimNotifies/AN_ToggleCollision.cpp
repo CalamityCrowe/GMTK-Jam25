@@ -7,7 +7,7 @@
 
 UAN_ToggleCollision::UAN_ToggleCollision()
 {
-	NotifyColor = FColor::Blue;
+	//NotifyColor = FColor::Blue;
 	bEnableCollision = true; // Default to enabling collision
 }
 

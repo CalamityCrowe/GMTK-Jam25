@@ -49,7 +49,7 @@ void UAsyncTaskAttributeChange::EndTask()
 		}
 	}
 	SetReadyToDestroy(); 
-	
+	MarkAsGarbage();
 }
 
 void UAsyncTaskAttributeChange::AttributeChanged(const FOnAttributeChangeData& Data)

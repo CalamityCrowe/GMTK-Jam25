@@ -37,6 +37,7 @@ public:
 
 	void UpdateLoop();
 private: 
+	UPROPERTY()
 	UAsyncTaskAttributeChange* AttributeChangeTask;
 
 	UPROPERTY(meta = (BindWidget))

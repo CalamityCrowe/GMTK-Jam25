@@ -7,8 +7,8 @@
 
 UANS_AttackNotify::UANS_AttackNotify()
 {
-	NotifyColor = FColor(255,100,100,255);
-	bShouldFireInEditor = true;
+	//NotifyColor = FColor(255,100,100,255);
+	//bShouldFireInEditor = true;
 }
 
 void UANS_AttackNotify::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, float TotalDuration, const FAnimNotifyEventReference& EventReference)

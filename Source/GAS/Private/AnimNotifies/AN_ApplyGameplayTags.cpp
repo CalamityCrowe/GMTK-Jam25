@@ -7,7 +7,7 @@
 
 UAN_ApplyGameplayTags::UAN_ApplyGameplayTags()
 {
-	NotifyColor = FColor::Cyan; // Set a default color for the notify
+	//NotifyColor = FColor::Cyan; // Set a default color for the notify
 	bRemoveTags = false; // Default to adding tags
 }
 

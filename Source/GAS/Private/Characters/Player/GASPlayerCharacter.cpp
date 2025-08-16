@@ -77,7 +77,7 @@ void AGASPlayerCharacter::PossessedBy(AController* NewController)
 
 		IntializeAttributes(); 
 
-		ASC->SetTagMapCount(DeadTag, 0);
+		//ASC->SetTagMapCount(DeadTag, 0);
 
 		SetHealth(GetMaxHealth());
 		SetMoveSpeed(GetMoveSpeed());

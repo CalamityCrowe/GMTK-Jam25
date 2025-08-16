@@ -14,7 +14,7 @@ void UProjectileLoopWidget::PopulateHorizontalBox()
 		return;
 	}
 
-	LoopContainer->ClearChildren();
+	LoopContainer->ClearChildren();	
 	ProjectileLoopNodeWidgets.Empty();
 	
 	if (const AGASPlayerCharacter* PlayerCharacter = Cast<AGASPlayerCharacter>(GetOwningPlayerPawn()))

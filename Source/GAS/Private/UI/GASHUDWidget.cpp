@@ -33,11 +33,12 @@ void UGASHUDWidget::NativeConstruct()
 
 void UGASHUDWidget::NativeDestruct()
 {
-	Super::NativeDestruct();
 	if (AttributeChangeTask)
 	{
 		AttributeChangeTask->EndTask();
 	}
+	Super::NativeDestruct();
+
 }
 
 void UGASHUDWidget::UpdateHealthBar(FGameplayAttribute Attribute,float oldHealth, float newHealth)

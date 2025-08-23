@@ -48,7 +48,6 @@ void AGASEnemyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	GEngine->AddOnScreenDebugMessage(-1, 0.0f, FColor::Red, FString::Printf(TEXT("Enemy Health: %f"), GetHealth()));
 }
 
 void AGASEnemyCharacter::Die()
